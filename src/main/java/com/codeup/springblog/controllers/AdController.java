@@ -16,12 +16,12 @@ public class AdController {
         this.adRepository = adRepository;
     }
 
-//    @GetMapping("/ads")
-//    @ResponseBody
-//    public String showAds() {
-//        System.out.println(adRepository.findAll());
-//        return "hi";
-//    }
+    @GetMapping("/ads")
+    @ResponseBody
+    public String showAds() {
+        System.out.println(adRepository.findAll());
+        return "hi";
+    }
 
     @GetMapping("/ads/{id}")
     @ResponseBody
