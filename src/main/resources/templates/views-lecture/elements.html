@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elements</title>
+</head>
+<body>
+<h1>Here be the Elements!</h1>
+
+<h2>What element speaks to you:</h2>
+<ul>
+    <li><a href="/elements/air">Air</a></li>
+    <li><a href="/elements/water">Water</a></li>
+    <li><a href="/elements/earth">Earth</a></li>
+    <li><a href="/elements/fire">Fire</a></li>
+</ul>
+
+<!--<div th:if="${selections}">-->
+<!--    <h2>You selected <span th:text="${roast}"></span> roast!</h2>-->
+<!--    <p>Here are some options for you:</p>-->
+<!--    <ul th:each="selection : ${selections}">-->
+<!--        <p><span th:text="${selection.brand}"></span> <span th:text="${selection.origin}"></span> <span th:text="${selection.roast}"></span> roast</p>-->
+<!--    </ul>-->
+<!--</div>-->
+
+<div th:if="${attunements}">
+<h2 th:if="${attune.element}"><p>You have attuned to <span th:text="${element}"></span>!</p></h2>
+    <p>A possible virute or vice from this element.</p>
+    <ul th:each="attune: ${attunements}">
+        <p><span th:text="${attune.attunement}"></span> <span th:text="${attune.}"></span></p>
+    </ul>
+<p th:if="${attune.element} == 'water'">A dangerous but life giving element!</p>
+<p th:if="${attune.element} == 'air'">The element that embodies freedom.</p>
+<p th:if="${attune.element} == 'earth'">Sturdy and bountiful.</p>
+<p th:if="${attune.element} == 'fire'">This element is energy made visible.</p>
+</div>
+
+
+</body>
+</html>

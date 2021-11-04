@@ -30,7 +30,7 @@ public class MathController {
     @ResponseBody
     public String returnDivision(@PathVariable int num1, @PathVariable int num2) {
         if (num2 == 0) {
-            throw new ArithmeticException("Cannot divide by 0.")
+            throw new ArithmeticException("Cannot divide by 0.");
         }
         return num1 + " is divided from " + num2 + " , " + (num1-num2) + " times.";
     }
