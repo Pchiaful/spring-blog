@@ -1,26 +1,40 @@
 package com.codeup.springblog.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table(name="posts")
+@Table(name = "posts")
 public class Post {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(nullable = false, length = 300)
+
+    @Column(columnDefinition = "VARCHAR(200) NOT NULL")
     private String title;
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String  body;
+
+    @Column(columnDefinition = "TEXT NOT NULL")
+    private String body;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "post")
+    private List<PostImage> images;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public Post() {
     }
 
-    public Post(long id, String title, String body) {
-        this.id = id;
+    public Post(String title, String body) {
         this.title = title;
         this.body = body;
+    }
+
+    public Post(String title, String body, User user) {
+        this.title = title;
+        this.body = body;
+        this.user = user;
     }
 
     public long getId() {
@@ -45,5 +59,21 @@ public class Post {
 
     public void setBody(String body) {
         this.body = body;
+    }
+
+    public List<PostImage> getImages() {
+        return images;
+    }
+
+    public void setImages(List<PostImage> images) {
+        this.images = images;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

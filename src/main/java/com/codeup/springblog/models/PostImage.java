@@ -1,8 +1,7 @@
-package com.codeup.springblog.controllers;
-
-import com.codeup.springblog.models.Post;
+package com.codeup.springblog.models;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "post_images")

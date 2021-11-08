@@ -1,53 +1,80 @@
 package com.codeup.springblog.controllers;
 
-//import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.models.Post;
+import com.codeup.springblog.models.PostImage;
+import com.codeup.springblog.models.User;
 import com.codeup.springblog.repositories.PostRepository;
+import com.codeup.springblog.repositories.UserRepository;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class PostController {
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    private final PostRepository postDao;
-    public PostController(PostRepository postRepository) {
-        this.postDao = postRepository;
+    public PostController(PostRepository postRepository, UserRepository userRepository) {
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("/posts")
-    @ResponseBody
-    public String showPosts(){
-        System.out.println(postDao.findAll());
-        return "post hopefully";
-    }
+    public String index(Model model) {
+        // fetch all posts with postRepository
+        List<Post> posts = postRepository.findAll();
+        model.addAttribute("posts", posts);
+        return "posts/index";
 
-    //seed posts in db
-//    fetch all posts with postsSao
-    //
-
-//    @GetMapping("/posts")
-//    @ResponseBody
-//    public String posts() {
-//        return "This will be the posts index page.";
-//    }
-
-    @GetMapping("/posts/{id}")
-    @ResponseBody
-    public String postId(@PathVariable long id) {
-        return "Will view individual posts. This post is number " + id + ".";
     }
 
     @GetMapping("/posts/create")
-    @ResponseBody
-    public String createPost() {
-        return "Create a post";
+    public String postForm(Model model) {
+        model.addAttribute("post", new Post());
+        return "posts/create";
     }
 
     @PostMapping("/posts/create")
-    @ResponseBody
-    public String postCreation() {
-        return "Created a post";
+    public String createPost(@ModelAttribute Post post, @RequestParam List<String> urls) {
+        List<PostImage> images = new ArrayList<>();
+
+        User user = new User(1, "schrader", "kyle@example.com", "password");
+
+        for (String url : urls) {
+            PostImage postImage = new PostImage(url);
+            postImage.setPost(post);
+            images.add(postImage);
+        }
+
+        post.setImages(images);
+
+        post.setUser(user);
+
+        user.addPost(post);
+
+        userRepository.save(user);
+        return "redirect:/posts";
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String returnEditView(@PathVariable long id, Model model) {
+        model.addAttribute("post", postRepository.getById(id));
+        return "posts/edit";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String updatePost(@PathVariable long id, @ModelAttribute("post") Post post) {
+        post.setId(id);
+        postRepository.save(post);
+        return "redirect:/posts";
+    }
+
+    @PostMapping("posts/{id}/delete")
+    public String deletePost(@PathVariable long id) {
+        postRepository.deleteById(id);
+        return "redirect:/posts";
     }
 }

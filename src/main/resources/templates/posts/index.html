@@ -1,18 +1,26 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Post Title</title>
-</head>
+<head th:replace="partials/partials.html :: head ('My Blog')" />
 <body>
-<h1>Blogs</h1>
+<nav th:replace="partials/partials.html :: navbar" />
+
+<h1>All Posts:</h1>
 
 <ul>
-    <li th:each="blog : ${blogs}">
-        <h2><span th::text="${blog.title}"></span></h2>
-        <p th::text="${blog.body}"></p>
+    <li th:each="post : ${posts}">
+        <img width="50" th:src="${image.url}" th:each="image : ${post.images}">
+        <h5><span th:text="${post.title}"></span></h5>
+        <p th:text="${post.body}"></p>
+        <p><span th:text="${post.user.getEmail()}"></span></p>
+        <a th:href="@{'/posts/' + ${post.id} + '/edit'}">Edit Post</a>
+        <form th:action="@{'/posts/' + ${post.id} + '/delete'}" th:method="POST">
+            <button>Delete Post</button>
+        </form>
     </li>
 </ul>
 
+<script th:replace="partials/partials.html :: bootstrap-js" />
 </body>
 </html>

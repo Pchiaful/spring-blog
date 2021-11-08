@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head th:replace="partials/partials.html :: head('Create Page')">
-  <title>Create Post</title>
+<head>
+  <meta charset="UTF-8">
+  <title>Create</title>
+</head>
 <body>
-<nav th:replace="partials/partials.html :: navbar"></nav>
-<div class="container">
-  <form  th:method="POST">
-    <div class="form-group">
-      <label for="title">Title</label>
-      <input type="text" name="title" id="title">
-    </div>
-    <div class="form-group">
-      <label for="body">Description</label>
-      <input type="text" name="body" id="body">
-    </div>
-    <div>
-      <label for="img_1">Image</label>
-      <input type="url" name="urls" id="img_1">
-    </div>
-    <button>Create Post</button>
-  </form>
-</div>
+<h1>Create Post</h1>
+<form th:method="POST" th:action="@{/posts/create}" th:object="${post}">
+  <div>
+    <label for="title">Title</label>
+    <br>
+    <input th:field="*{title}" name="title" id="title" type="text" placeholder="Please Enter a Title... ">
+  </div>
+  <div>
+    <label for="body">Body</label>
+    <br>
+    <textarea th:field="*{body}" name="body" id="body" cols="30" rows="10" placeholder="Please Enter a Body... "></textarea>
+  </div>
+  <div>
+    <label for="image-1">Image 1</label>
+    <input id="image-1" name="urls" type="url" placeholder="Enter Image URL">
+    <br>
+    <label for="image-2">Image 2</label>
+    <input id="image-2" name="urls" type="url" placeholder="Enter Image URL">
+  </div>
+  <button>Create Post</button>
+</form>
 </body>
 </html>
