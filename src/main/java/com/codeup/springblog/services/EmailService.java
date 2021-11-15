@@ -37,9 +37,9 @@ public class EmailService {
     public void prepareAndSend(Post post, String title, String bodu) {
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setFrom(from);
-        msg.setTo(post.getUser(),getEmail());
+//        msg.setTo(post.getUser(),getEmail());
         msg.setSubject(title);
-        msg.setText(body);
+//        msg.setText(body);
 
         try{
             this.emailSender.send(msg);
